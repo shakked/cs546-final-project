@@ -1,0 +1,29 @@
+{
+  "name": "hoboken-happy-hours",
+  "version": "1.0.0",
+  "description": "Hoboken Happy Hours will be a web application that centralizes information about all the happy hours going on in Hoboken.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shakked/cs546-final-project.git"
+  },
+  "author": "Zachary Shakked, James Zhang (Zhiyuan Zhang), Alex Vallorosi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shakked/cs546-final-project/issues"
+  },
+  "homepage": "https://github.com/shakked/cs546-final-project#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect": "^3.6.5",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "password-hash": "^1.2.2"
+  }
+}
