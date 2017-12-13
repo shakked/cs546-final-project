@@ -1,11 +1,12 @@
 const mongoCollections = require('../config/mongoCollection'),
     passwordHash = require('password-hash'),
-    bars = mongoCollections.happyHours,
+    bars = mongoCollections.bars,
     barSpecials = mongoCollections.barSpecials,
     barSpecialReviews = mongoCollections.barSpecialReviews;
 
-exports.createBar = async (name, address, longitude, latitude, yelpURL, openingHours, closingHours, description) => {
-    if (!name || !address || !longitude || !latitude || !yelpURL || !openingHours || !closingHours || !description) {
+exports.createBar = async (name, address, /* longitude, latitude, yelpURL, openingHours, closingHours*/ description) => {
+    
+    if (!name || !address /*|| !longitude || !latitude || !yelpURL || !openingHours || !closingHours*/ || !description) {
         throw 'You must have a name, address, longitude, latitude, yelpURL, openingHours, closingHours, and a description when creating a bar.' 
     }
 
@@ -19,11 +20,11 @@ exports.createBar = async (name, address, longitude, latitude, yelpURL, openingH
     const newBar = {
         name: name,
         address: address, 
-        longitude: longitude,
+        /*longitude: longitude,
         latitude: latitude,
         yelpURL: yelpURL, 
         openingHours: openingHours, 
-        closingHours: closingHours,
+        closingHours: closingHours,*/
         description: description,
     }
     
