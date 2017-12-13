@@ -94,3 +94,43 @@ label {
 }
 label.sports-bar { background-color: #F5A623; }
 label.night-club { background-color: #4A90E2; }
+.monday {
+    background-color: #E5EFFE;
+    color: #4F8DFF;
+}
+.tuesday {}
+.wednesday {}
+.thursday {}
+.friday {
+    background-color: #E2F7F7;
+    color: #76C6CA;
+}
+.saturday {}
+.sunday {}
+.happy-hours {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.happy-hours :first-child { margin-left: 0; }
+.happy-hours :last-child { margin-right: 0; }
+.happy-hour {
+    border-radius: 8px;
+    height: auto;
+    margin: 0 10px;
+    padding: 20px;
+    /*width: 50%;*/
+    flex: 1;
+}
+.happy-hour h2 {
+    font-size: 18px;
+    font-weight: bold;
+}
+.happy-hour span {
+    color: inherit;
+}
+.happy-hour p {
+    font-size: 16px!important;
+    margin: 0!important;
+}
