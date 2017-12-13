@@ -1,3 +1,75 @@
-<h1>Hoboken Happy Hours</h1>
-<a href="/login">Log In</a>
-<a href="/signup">Sign Up</a>
+<style type="text/css">
+	h1 {
+		font-weight: bold;
+	}
+	.container {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	#map {
+		border-radius: 8px;
+		height: 400px;
+		width: 50%;
+	}
+	#venues {
+		padding: 0 40px;
+	}
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+	ul li {
+		margin: 20px 0;
+	}
+	ul li label {
+		background-color: #F5A623;
+		border-radius: 8px;
+		color: #FFFFFF;
+		font-size: 14px;
+		padding: 5px 10px;
+		text-transform: uppercase;
+	}
+</style>
+
+<div class="container">
+	<div id="map"></div>
+	<section id="venues">
+		<h1>Downtown</h1>
+		<ul>
+			<li>
+				<label>Sports Bar</label>
+				<h2>The HUB Sports Venue</h2>
+				<span>16 Hudson Pl, Hoboken, NJ 07030</span>
+			</li>
+			<li>
+				<label>Sports Bar</label>
+				<h2>The HUB Sports Venue</h2>
+				<span>16 Hudson Pl, Hoboken, NJ 07030</span>
+			</li>
+			<li>
+				<label>Sports Bar</label>
+				<h2>The HUB Sports Venue</h2>
+				<span>16 Hudson Pl, Hoboken, NJ 07030</span>
+			</li>
+		</ul>
+	</section>
+</div>
+
+<script>
+  function initMap() {
+    var hoboken = {lat: 40.743991, lng: -74.032363};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 14,
+      center: hoboken,
+      disableDefaultUI: true
+    });
+    var marker = new google.maps.Marker({
+      position: hoboken,
+      map: map
+    });
+  }
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcknJzbHOjqF_O9QAL1lZuSX34prq_3Wk&callback=initMap">
+</script>
