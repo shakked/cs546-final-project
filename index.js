@@ -113,6 +113,10 @@ app.post('/signup', (req, res) => {
     })
 });
 
+app.get('/create-bar', (req, res) => {
+    return res.render('create-bar');
+});
+
 app.get('/:barID', (req, res) => {
     const barID = req.params.barID;
     happyHours.fetchBar(barID).then(bar => {
@@ -137,8 +141,18 @@ app.get('/:barID/:specialID', (req,res) => {
     });
 });
 
-app.post('/bar', (req, res) => {
-    
+app.post('/create-bar', (req, res) => {
+    const name = req.body.name;
+    const address = req.body.address;
+    const description = req.body.description;
+
+    happyHours.createBar(name, address, description).then( response => {
+        
+        return res.redirect(303, `/${response.insertedId}`);
+
+    }).catch( err => {
+        console.log(err);
+    });
 });
 
 app.post('/:barID/special', (req, res) => {
