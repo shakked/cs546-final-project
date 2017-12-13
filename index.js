@@ -4,7 +4,8 @@ const express = require('express'),
     handlebars = require('handlebars'),
     routes = require('./routes'),
     authentication = require('./model/authentication'),
-    session = require('express-session');
+    session = require('express-session'),
+    happyHours = require('./model/happyHours');
 
 const expressHandlebarsEngine = expressHandlebars.create({ defaultLayout: 'main'}).engine;
 
@@ -111,6 +112,48 @@ app.post('/signup', (req, res) => {
         })
     })
 });
+
+app.get('/:barID', (req, res) => {
+    const barID = req.params.barID;
+    happyHours.fetchBar(barID).then(bar => {
+        return res.render('bar', {
+            bar: bar,
+        })
+    }).catch(err => {
+        console.log(err);
+    });
+});
+
+app.get('/:barID/:specialID', (req,res) => {
+    const barID = req.params.barID;
+    const specialID = req.params.specialID;
+
+    happyHours.fetchBarSpecial(specialID).then( barSpecial => {
+        return res.render('bar-special', {
+            barSpecial: barSpecial,
+        });
+    }).catch( err => {
+        console.log(err);
+    });
+});
+
+app.post('/bar', (req, res) => {
+    
+});
+
+app.post('/:barID/special', (req, res) => {
+    const barID = req.params.barID;
+
+});
+
+app.post('/:barID/:specialID/review', (req, res) => {
+    const barID = req.params.barID;
+    const specialID = req.params.specialID;
+
+
+});
+
+
 
 app.listen(3000, () => {
     console.log('Server running on http://localhost:3000');

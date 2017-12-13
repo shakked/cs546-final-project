@@ -31,6 +31,17 @@ exports.createBar = async (name, address, longitude, latitude, yelpURL, openingH
     return response;
 }
 
+exports.fetchBar = async (barID) => {
+    if (!barID) {
+        throw 'You must enter a barID';
+    }
+
+    const barsCollection = await bars();
+    const bar = await barsCollection.findOne({ _id: barID });
+
+    return bar;
+}
+
 exports.barExists = async (name) => {
 
     if (!name) {
@@ -67,6 +78,18 @@ exports.addBarSpecial = async (bar, name, startEndTimes, description, daysOfWeek
 
     const response = await barSpecialsCollection.insertOne(newBarSpecial);
     return response;
+}
+
+exports.fetchBarSpecial = async (specialID) => {
+
+    if (!specialID) {
+        throw 'You must enter a specialID';
+    }
+
+    const barSpecialsCollection = await barSpecials();
+    const barSpecial = await barSpecialsCollection.findOne({ _id: specialID});
+    
+    return barSpecial;
 }
 
 exports.addBarSpecialReview = async (user, barSpecial, score, explanation) => {
