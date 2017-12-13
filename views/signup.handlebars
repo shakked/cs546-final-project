@@ -1,10 +1,14 @@
 {{!-- name, address, longitude, latitude, yelpURL, openingHours, closingHours, description) --}}
 <div class="container col-sm-4 col-sm-offset-4">
     <h1>Sign Up</h1> 
-    <form action="/login" method="POST">
+    <form action="/signup" method="POST">
         <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@example.com">
+            <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@example.com">
+        </div>
+        <div class="form-group">
+            <label for="displayName">Display Name</label>
+            <input type="displayName" class="form-control" id="displayName" placeholder="John Handcock">
         </div>
         <div class="form-group">
             <label for="password">Password</label>
