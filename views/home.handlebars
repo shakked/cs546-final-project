@@ -1,111 +1,75 @@
-<style type="text/css">
-	h1 {
-		font-weight: bold;
-	}
-	.container-fluid {
-		align-items: flex-start;
-		display: flex;
-		justify-content: flex-start;
-		padding: 0;
-	}
-	#map {
-		border-radius: 0 8px 8px 0;
-		height: 85vh;
-		width: 40%;
-	}
-	#venues {
-		padding: 0 40px;
-	}
-	ul {
-		list-style-type: none;
-		padding: 0;
-	}
-	ul li {
-		margin: 20px 0;
-	}
-	ul li label {
-		border-radius: 8px;
-		color: #FFFFFF;
-		font-size: 14px;
-		padding: 5px 10px;
-		text-transform: uppercase;
-	}
-	ul li label.sports-bar { background-color: #F5A623; }
-	ul li label.night-club { background-color: #4A90E2; }
-</style>
-
 <div class="container-fluid">
-	<div id="map"></div>
-	<section id="venues">
-		<h1>Waterfront</h1>
-		<ul>
-			<li>
-				<label class="sports-bar">Sports Bar</label>
-				<h2>The HUB Sports Venue</h2>
-				<span>16 Hudson Pl, Hoboken, NJ 07030</span>
-			</li>
-			<li>
-				<label class="night-club">Nightclub</label>
-				<h2>BIRCH Night Club &amp; Bar</h2>
-				<span>16 Hudson Pl, Hoboken, NJ 07030</span>
-			</li>
-			<li>
-				<label class="sports-bar">Sports Bar</label>
-				<h2>The HUB Sports Venue</h2>
-				<span>16 Hudson Pl, Hoboken, NJ 07030</span>
-			</li>
-		</ul>
-	</section>
+    <div id="map"></div>
+    <section id="venues">
+        <h1>Waterfront</h1>
+        <ul>
+            <li>
+                <label class="sports-bar">Sports Bar</label>
+                <h2>The HUB Sports Venue</h2>
+                <span>16 Hudson Pl, Hoboken, NJ 07030</span>
+            </li>
+            <li>
+                <label class="night-club">Nightclub</label>
+                <h2>BIRCH Night Club &amp; Bar</h2>
+                <span>16 Hudson Pl, Hoboken, NJ 07030</span>
+            </li>
+            <li>
+                <label class="sports-bar">Sports Bar</label>
+                <h2>The HUB Sports Venue</h2>
+                <span>16 Hudson Pl, Hoboken, NJ 07030</span>
+            </li>
+        </ul>
+    </section>
 </div>
 
 <script>
-	function initMap() {
-	  	var hoboken = {lat: 40.743991, lng: -74.032363};
-	  	var icons = {
-	      sportsBar: { icon: '/public/sports-bar.png' },
-	      nightClub: { icon: '/public/night-club.png' }
-	    };
-	    var venues = [
-	          {
-	            position: new google.maps.LatLng(40.736100, -74.028628),
-	            type: 'sportsBar'
-	          },
-	    ];
-	    
-	    var map = new google.maps.Map(document.getElementById('map'), {
-	      zoom: 15,
-	      center: hoboken,
-	      disableDefaultUI: true
-	    });
+    function initMap() {
+        var hoboken = {lat: 40.743991, lng: -74.032363};
+        var icons = {
+          sportsBar: { icon: '/public/sports-bar.png' },
+          nightClub: { icon: '/public/night-club.png' }
+        };
+        var venues = [
+              {
+                position: new google.maps.LatLng(40.736100, -74.028628),
+                type: 'sportsBar'
+              },
+        ];
+        
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: hoboken,
+          disableDefaultUI: true
+        });
 
-	    // Coordinates
-		var waterfrontCoords = [
-			{lat: 40.735688, lng: -74.028153},
-			{lat: 40.741557, lng: -74.026222},
-			{lat: 40.742175, lng: -74.029505},
-			{lat: 40.736208, lng: -74.031308},
-			{lat: 40.735688, lng: -74.028153}
-		];
-		// Construct the fence
-		var waterfront = new google.maps.Polygon({
-			paths: waterfrontCoords,
-			strokeColor: '#7AD8FF',
-			strokeOpacity: 0.8,
-			strokeWeight: 2,
-			fillColor: '#7AD8FF',
-			fillOpacity: 0.35
-		});
-		waterfront.setMap(map);
+        // Coordinates
+        var waterfrontCoords = [
+            {lat: 40.735688, lng: -74.028153},
+            {lat: 40.741557, lng: -74.026222},
+            {lat: 40.742175, lng: -74.029505},
+            {lat: 40.736208, lng: -74.031308},
+            {lat: 40.735688, lng: -74.028153}
+        ];
+        // Construct the fence
+        var waterfront = new google.maps.Polygon({
+            paths: waterfrontCoords,
+            strokeColor: '#7AD8FF',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#7AD8FF',
+            fillOpacity: 0.35
+        });
+        waterfront.setMap(map);
 
-		// Mapping markers
-	    venues.forEach((venue) => {
-	      var marker = new google.maps.Marker({
-	        position: venue.position,
-	        icon: icons[venue.type].icon,
-	        map: map
-	      });
-	    });
-	}
+        // Mapping markers
+        venues.forEach((venue) => {
+          var marker = new google.maps.Marker({
+            position: venue.position,
+            icon: icons[venue.type].icon,
+            map: map
+          });
+        });
+    }
 </script>
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcknJzbHOjqF_O9QAL1lZuSX34prq_3Wk&callback=initMap">
