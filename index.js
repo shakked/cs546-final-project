@@ -39,6 +39,12 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/profile', (req, res) => {
+    res.render('profile', {
+        user: req.session.user,
+    });
+});
+
 app.get('/login', (req, res) => {
     res.render('login');
 });
@@ -117,9 +123,23 @@ app.get('/create-bar', (req, res) => {
     return res.render('create-bar');
 });
 
-app.get('/:barID', (req, res) => {
+app.get('/bars', (req, res) => {
+    
+    happyHours.fetchBars().then( bars => {
+
+        return res.render('bars', {
+            bars: bars,
+        });
+    }).catch( err => {
+        console.log(err);
+    });
+});
+
+app.get('/bars/:barID', (req, res) => {
     const barID = req.params.barID;
+
     happyHours.fetchBar(barID).then(bar => {
+        
         return res.render('bar', {
             bar: bar,
         })
@@ -148,10 +168,18 @@ app.post('/create-bar', (req, res) => {
 
     happyHours.createBar(name, address, description).then( response => {
         
-        return res.redirect(303, `/${response.insertedId}`);
+        return res.redirect(303, `/bars/${response.insertedId}`);
 
     }).catch( err => {
         console.log(err);
+        req.session.flash = {
+            type: 'danger',
+            intro: 'Error!',
+            message: 'That bar already exists.',
+        };
+        req.session.save(() => {
+            return res.redirect(303, '/create-bar');
+        });
     });
 });
 

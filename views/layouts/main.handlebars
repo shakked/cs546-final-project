@@ -17,12 +17,23 @@
                 <li>Venues</li>
                 <li>Regions</li>
                 <li>Search</li>
-                <li><a href="/login">Log In</a></li>
-                <li>
-                    <a href="/signup" class="btn btn-primary">Sign Up</a>
-                </li>
+                {{#if user}}
+                    <li><a href="/profile" class="btn btn-primary">{{user.displayName}}</a></li>
+                {{else}}
+                    <li><a href="/login">Log In</a></li>
+                    <li><a href="/signup" class="btn btn-primary">Sign Up</a></li>
+                {{/if}}
             </ul>
         </nav>
+        {{#if flash}}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-{{flash.type}}">
+                        <strong>{{flash.intro}}</strong> {{{flash.message}}}
+                    </div>
+                </div>
+            </div>
+        {{/if}}
         {{{body}}}
 
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="

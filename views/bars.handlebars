@@ -1,0 +1,8 @@
+{{#each bars}}
+    <p>--------------------------</p>
+    <p>Bar ID: {{this._id}}</p>
+    <p>Bar Name: <a href="/bars/{{this._id}}">{{this.name}}</a></p>
+    <p>Address: {{this.address}}</p>
+    <p>Description: {{this.description}}</p>
+
+{{/each}}

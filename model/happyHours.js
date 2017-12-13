@@ -2,7 +2,8 @@ const mongoCollections = require('../config/mongoCollection'),
     passwordHash = require('password-hash'),
     bars = mongoCollections.bars,
     barSpecials = mongoCollections.barSpecials,
-    barSpecialReviews = mongoCollections.barSpecialReviews;
+    barSpecialReviews = mongoCollections.barSpecialReviews,
+    ObjectId = require('mongodb').ObjectId;
 
 exports.createBar = async (name, address, /* longitude, latitude, yelpURL, openingHours, closingHours*/ description) => {
     
@@ -38,10 +39,19 @@ exports.fetchBar = async (barID) => {
     }
 
     const barsCollection = await bars();
-    const bar = await barsCollection.findOne({ _id: barID });
+    const bar = await barsCollection.findOne({ _id: ObjectId(barID) });
 
     return bar;
 }
+
+exports.fetchBars = async (a) => {
+    console.log("here");
+    const barsCollection = await bars();
+   
+    const theBars = await barsCollection.find({}).toArray();
+
+    return theBars;
+};
 
 exports.barExists = async (name) => {
 
