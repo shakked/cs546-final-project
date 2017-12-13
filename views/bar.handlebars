@@ -1,10 +1,10 @@
 <div class="container-fluid">
     <div id="map"></div>
     <section id="venue">
-        <label class="sports-bar">Sports Bar</label>
-        <h1>The HUB Sports Venue</h1>
-        <span>16 Hudson Pl, Hoboken, NJ 07030</span>
-        <p>This bar honestly fucking blows I don't know why anyone in their right mind would waste their time coming to this piece of shit bar.</p>
+        <label class="sports-bar">{{ bar.label }}</label>
+        <h1>{{ bar.name }}</h1>
+        <span>{{ bar.address }}</span>
+        <p>{{ bar.description }}</p>
         <section class="happy-hours">
             <div class="friday happy-hour">
                 <h2>$2 Beer Happy Hour</h2>
