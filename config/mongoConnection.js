@@ -7,6 +7,7 @@ const settings = {
     }
 };
 
+
 let fullMongoUrl = settings.mongoConfig.serverUrl + settings.mongoConfig.database;
 let _connection = undefined
 
