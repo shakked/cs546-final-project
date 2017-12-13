@@ -134,32 +134,67 @@ app.get('/bars', (req, res) => {
         console.log(err);
     });
 });
+    
+app.get('/bars/:barID/specials/:barSpecialID', (req,res) => {
 
-app.get('/bars/:barID', (req, res) => {
     const barID = req.params.barID;
+    const barSpecialID = req.params.barSpecialID;
 
-    happyHours.fetchBar(barID).then(bar => {
-        
-        return res.render('bar', {
-            bar: bar,
-        })
+    happyHours.fetchBarSpecialAndReviews(barID, barSpecialID).then( response => {
+        const barSpecial = response.barSpecial;
+        const barSpecialReviews = response.barSpecialReviews;
+        return res.render('bar-special', {
+            barSpecial: barSpecial,
+            barSpecialReviews: barSpecialReviews,
+            user: req.session.user,
+        });
+
     }).catch(err => {
         console.log(err);
     });
 });
 
-app.get('/:barID/:specialID', (req,res) => {
+app.post('/bars/:barID/specials/:barSpecialID/add-review', (req, res) => {
     const barID = req.params.barID;
-    const specialID = req.params.specialID;
+    const barSpecialID = req.params.barSpecialID;
 
-    happyHours.fetchBarSpecial(specialID).then( barSpecial => {
-        return res.render('bar-special', {
-            barSpecial: barSpecial,
+    const author = req.body.author;
+    const score = req.body.score;
+    const explanation = req.body.explanation;
+
+    happyHours.addBarSpecialReview(barSpecialID, author, score, explanation).then(response => {
+
+        return res.redirect(303, `/bars/${barID}/specials/${barSpecialID}`);
+    }).catch(err => {
+        console.log(err);
+        req.session.flash = {
+            type: 'danger',
+            intro: 'Error!',
+            message: 'Something went wrong.',
+        };
+        req.session.save(() => {
+            return res.redirect(303, `/bars/${barID}/specials/${barSpecialID}/add-review`);
         });
-    }).catch( err => {
+    });
+
+});
+
+
+app.get('/bars/:barID', (req, res) => {
+    const barID = req.params.barID;
+
+    happyHours.fetchBarAndSpecials(barID).then( response => {
+
+        return res.render('bar', {
+            bar: response.bar,
+            barSpecials: response.barSpecials,
+        });
+
+    }).catch(err => {
         console.log(err);
     });
 });
+
 
 app.post('/create-bar', (req, res) => {
     const name = req.body.name;
@@ -183,8 +218,26 @@ app.post('/create-bar', (req, res) => {
     });
 });
 
-app.post('/:barID/special', (req, res) => {
+app.post('/bars/:barID/add-happy-hour', (req, res) => {
+
     const barID = req.params.barID;
+    const name = req.body.name;
+    const when = req.body.when;
+    const description = req.body.description;
+
+    happyHours.addBarSpecial(barID, name, when, description).then(resposne => {
+        return res.redirect(303, `/bars/${barID}`);
+    }).catch( err => {
+        console.log(err);
+        req.session.flash = {
+            type: 'danger',
+            intro: 'Error!',
+            message: 'Something went wrong.',
+        };
+        req.session.save(() => {
+            return res.redirect(303, '/create-bar');
+        });
+    })
 
 });
 

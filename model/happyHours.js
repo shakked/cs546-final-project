@@ -44,6 +44,21 @@ exports.fetchBar = async (barID) => {
     return bar;
 }
 
+exports.fetchBarAndSpecials = async (barID) => {
+    if (!barID) {
+        throw 'You must enter a barID';
+    }
+
+    const bar = await exports.fetchBar(barID);
+    const barSpecials = await exports.fetchBarSpecials(barID);
+
+    const response = {
+        bar: bar,
+        barSpecials: barSpecials,
+    };
+    return response;
+}
+
 exports.fetchBars = async (a) => {
     console.log("here");
     const barsCollection = await bars();
@@ -67,10 +82,10 @@ exports.barExists = async (name) => {
     return response;
 }
 
-exports.addBarSpecial = async (bar, name, startEndTimes, description, daysOfWeek) => {
+exports.addBarSpecial = async (barID, name, when, description) => {
 
-    if (!bar || !name || !startEndTimes || !description || !daysOfWeek) {
-        throw 'You must enter a bar, name, startEndTimes, description, and daysOfWeek';
+    if (!barID || !name || !when || !description) {
+        throw 'You must enter a bar, name, when, description';
     }
 
     const barSpecialsCollection = await barSpecials();
@@ -80,43 +95,83 @@ exports.addBarSpecial = async (bar, name, startEndTimes, description, daysOfWeek
     }
 
     const newBarSpecial = {
-        bar: bar._id,
+        bar: barID,
         name: name,
+        when: when,
         description: description,
-        startEndTimes: startEndTimes,
-        daysOfWeek: daysOfWeek,
     };
 
     const response = await barSpecialsCollection.insertOne(newBarSpecial);
     return response;
 }
 
-exports.fetchBarSpecial = async (specialID) => {
 
-    if (!specialID) {
+exports.fetchBarSpecialAndReviews = async (barID, barSpecialID) => {
+
+    if (!barID) {
+        throw 'You must enter a barID';
+    }
+
+    const barSpecial = await exports.fetchBarSpecial(barSpecialID);
+    const barSpecialReviews = await exports.fetchBarSpecialReviews(barSpecialID);
+
+    const response = {
+        barSpecial: barSpecial,
+        barSpecialReviews: barSpecialReviews,
+    }
+    
+    return response;
+}
+
+exports.fetchBarSpecials = async (barID) => {
+    if (!barID) {
+        throw 'You must enter a barID';
+    }
+
+    const barSpecialsCollection = await barSpecials();
+    const theBarSpecials = await barSpecialsCollection.find({ bar: barID}).toArray();
+    
+    return theBarSpecials;
+}
+
+exports.fetchBarSpecial = async (barSpecialID) => {
+
+    if (!barSpecialID) {
         throw 'You must enter a specialID';
     }
 
     const barSpecialsCollection = await barSpecials();
-    const barSpecial = await barSpecialsCollection.findOne({ _id: specialID});
+    const barSpecial = await barSpecialsCollection.findOne({ _id: ObjectId(barSpecialID)});
     
     return barSpecial;
 }
 
-exports.addBarSpecialReview = async (user, barSpecial, score, explanation) => {
+exports.addBarSpecialReview = async (barSpecialID, author, score, explanation) => {
 
-    if (!user || !barSpecial || !score || !explanation) {
-        throw 'You must enter a user, barSpecial, score, and explanation';
+    if (!barSpecialID || !author || !score || !explanation) {
+        throw 'You must enter a barSpecialID, author, score, and explanation';
     }
 
     const barSpecialReviewsCollection = await barSpecialReviews();
     const newBarSpecialReview = {
-        user: user._id,
-        barSpecial: barSpecial._id,
+        barSpecialID: barSpecialID,
+        author: author,
         score: score,
         explanation: explanation,
     };
 
     const response = await barSpecialReviewsCollection.insertOne(newBarSpecialReview);
     return response;
+}
+
+exports.fetchBarSpecialReviews = async (barSpecialID) => {
+    
+    if (!barSpecialID) {
+        throw 'You must enter a barSpecialID';
+    }
+
+    const barSpecialReviewsCollection = await barSpecialReviews();
+    const theBarSpecialReviews = await barSpecialReviewsCollection.find({ barSpecialID: barSpecialID }).toArray();
+    
+    return theBarSpecialReviews;   
 }
