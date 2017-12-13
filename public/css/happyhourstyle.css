@@ -1,0 +1,75 @@
+@font-face {
+    font-family: "Arvo";
+    src: url("../fonts/Arvo-Regular.ttf");
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Arvo";
+    src: url("../fonts/Arvo-Bold.ttf");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "San Francisco";
+    src: url("https://cdn.turbo360-vertex.com/squaremeals-hdmqb6/public/fonts/SanFranciscoDisplay-Medium.otf");
+    font-weight: normal;
+}
+@font-face {
+    font-family: "San Francisco";
+    src: url("https://cdn.turbo360-vertex.com/squaremeals-hdmqb6/public/fonts/SanFranciscoDisplay-Bold.otf");
+    font-weight: bold;
+}
+html, body {
+    font-family: 'San Francisco';
+}
+h1 {
+    font-weight: bold;
+}
+nav {
+    height: 10vh;
+    padding: 0 40px;
+}
+nav ul {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    list-style-type: none;
+}
+nav ul li {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+nav #logo { margin-right: auto; }
+nav #logo h1 {
+    font-family: 'Arvo';
+    text-transform: uppercase;
+    margin: 0;
+}
+.container-fluid {
+    align-items: flex-start;
+    display: flex;
+    justify-content: flex-start;
+    padding: 0;
+}
+#map {
+    height: 90vh;
+    width: 40%;
+}
+#venues {
+    padding: 20px 40px;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+ul li {
+    margin: 20px 0;
+}
+label {
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 5px 10px;
+    text-transform: uppercase;
+}
+label.sports-bar { background-color: #F5A623; }
+label.night-club { background-color: #4A90E2; }
