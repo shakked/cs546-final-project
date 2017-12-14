@@ -39,6 +39,12 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/profile', (req, res) => {
+    res.render('profile', {
+        user: req.session.user,
+    });
+});
+
 app.get('/login', (req, res) => {
     res.render('login');
 });
@@ -117,29 +123,78 @@ app.get('/create-bar', (req, res) => {
     return res.render('create-bar');
 });
 
-app.get('/:barID', (req, res) => {
-    const barID = req.params.barID;
-    happyHours.fetchBar(barID).then(bar => {
-        return res.render('bar', {
-            bar: bar,
-        })
-    }).catch(err => {
-        console.log(err);
-    });
-});
+app.get('/bars', (req, res) => {
+    
+    happyHours.fetchBars().then( bars => {
 
-app.get('/:barID/:specialID', (req,res) => {
-    const barID = req.params.barID;
-    const specialID = req.params.specialID;
-
-    happyHours.fetchBarSpecial(specialID).then( barSpecial => {
-        return res.render('bar-special', {
-            barSpecial: barSpecial,
+        return res.render('bars', {
+            bars: bars,
         });
     }).catch( err => {
         console.log(err);
     });
 });
+    
+app.get('/bars/:barID/specials/:barSpecialID', (req,res) => {
+
+    const barID = req.params.barID;
+    const barSpecialID = req.params.barSpecialID;
+
+    happyHours.fetchBarSpecialAndReviews(barID, barSpecialID).then( response => {
+        const barSpecial = response.barSpecial;
+        const barSpecialReviews = response.barSpecialReviews;
+        return res.render('bar-special', {
+            barSpecial: barSpecial,
+            barSpecialReviews: barSpecialReviews,
+            user: req.session.user,
+        });
+
+    }).catch(err => {
+        console.log(err);
+    });
+});
+
+app.post('/bars/:barID/specials/:barSpecialID/add-review', (req, res) => {
+    const barID = req.params.barID;
+    const barSpecialID = req.params.barSpecialID;
+
+    const author = req.body.author;
+    const score = req.body.score;
+    const explanation = req.body.explanation;
+
+    happyHours.addBarSpecialReview(barSpecialID, author, score, explanation).then(response => {
+
+        return res.redirect(303, `/bars/${barID}/specials/${barSpecialID}`);
+    }).catch(err => {
+        console.log(err);
+        req.session.flash = {
+            type: 'danger',
+            intro: 'Error!',
+            message: 'Something went wrong.',
+        };
+        req.session.save(() => {
+            return res.redirect(303, `/bars/${barID}/specials/${barSpecialID}/add-review`);
+        });
+    });
+
+});
+
+
+app.get('/bars/:barID', (req, res) => {
+    const barID = req.params.barID;
+
+    happyHours.fetchBarAndSpecials(barID).then( response => {
+
+        return res.render('bar', {
+            bar: response.bar,
+            barSpecials: response.barSpecials,
+        });
+
+    }).catch(err => {
+        console.log(err);
+    });
+});
+
 
 app.post('/create-bar', (req, res) => {
     const name = req.body.name;
@@ -148,15 +203,41 @@ app.post('/create-bar', (req, res) => {
 
     happyHours.createBar(name, address, description).then( response => {
         
-        return res.redirect(303, `/${response.insertedId}`);
+        return res.redirect(303, `/bars/${response.insertedId}`);
 
     }).catch( err => {
         console.log(err);
+        req.session.flash = {
+            type: 'danger',
+            intro: 'Error!',
+            message: 'That bar already exists.',
+        };
+        req.session.save(() => {
+            return res.redirect(303, '/create-bar');
+        });
     });
 });
 
-app.post('/:barID/special', (req, res) => {
+app.post('/bars/:barID/add-happy-hour', (req, res) => {
+
     const barID = req.params.barID;
+    const name = req.body.name;
+    const when = req.body.when;
+    const description = req.body.description;
+
+    happyHours.addBarSpecial(barID, name, when, description).then(resposne => {
+        return res.redirect(303, `/bars/${barID}`);
+    }).catch( err => {
+        console.log(err);
+        req.session.flash = {
+            type: 'danger',
+            intro: 'Error!',
+            message: 'Something went wrong.',
+        };
+        req.session.save(() => {
+            return res.redirect(303, '/create-bar');
+        });
+    })
 
 });
 

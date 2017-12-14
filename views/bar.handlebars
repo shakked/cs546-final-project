@@ -1,10 +1,12 @@
 <div class="container-fluid">
     <div id="map"></div>
     <section id="venue">
-        <label class="sports-bar">{{ bar.label }}</label>
-        <h1>{{ bar.name }}</h1>
-        <span>{{ bar.address }}</span>
-        <p>{{ bar.description }}</p>
+
+        <label class="sports-bar">Sports Bar</label>
+
+        <h1>{{bar.name}}</h1>
+        <span>{{bar.address}}</span>
+        <p>{{bar.description}}</p>
         <section class="happy-hours">
             <div class="friday happy-hour">
                 <h2>$2 Beer Happy Hour</h2>
@@ -16,9 +18,44 @@
                 <span>4PM to 8PM</span>
                 <p>Come enjoy our full selection of local draft beers as well as select bottles for $2 during happy hour from 4PM to 8PM every night of the week.</p>
             </div>
+            
         </section>
     </section>
+    
+    
 </div>
+
+{{#each barSpecials}}
+
+    <p>---------------</p>
+    <p>Bar Special ID: <a href="/bars/{{../bar._id}}/specials/{{this._id}}">{{this._id}}</a></p>
+    <p>Name: {{this.name}}</p>
+    <p>When: {{this.when}}</p>
+    <p>Description: {{this.description}}</p>
+
+{{/each}}
+
+<div class="container col-sm-4 col-sm-offset-4">
+    <h1>Add Happy Hour</h1> 
+    <form action="/bars/{{bar._id}}/add-happy-hour" method="POST">
+        <div class="form-group">
+            <label for="name">Name of Bar Special:</label>
+            <input type="text" name="name" class="form-control" id="name" placeholder="i.e. Taco Tuesday">
+        </div>
+
+        <div class="form-group">
+            <label for="when">When</label>
+            <input type="text" name="when" class="form-control" id="when" placeholder="Mondays 6PM to 10PM">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" name="description" class="form-control" id="description" placeholder="i.e. $2 Tacos and $2 Coronas!">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
 <script>
     function initMap() {
         var bar = { lat: 40.736100, lng: -74.028628 };
